@@ -1,0 +1,11 @@
+# Игнорировать папку __pycache__
+__pycache__
+
+# Игнорировать папку .mypy_cache
+.mypy_cache
+
+# Игнорировать папку .vscode
+.vscode
+
+# Игнорировать папку venv
+venv

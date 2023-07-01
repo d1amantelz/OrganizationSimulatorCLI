@@ -1,0 +1,118 @@
+import sqlite3 as sql
+import prettytable
+from typing import List, Tuple, Any, Optional
+
+from roles import Employee, Role
+from emp_comments import create_comment, delete_comment
+from constants import SORT_PARAMS
+
+
+def insert_into_db(employee: Employee) -> None:
+    if check_employee_exists(employee):
+        print('<Warning: Этот работник уже есть в БД, некого добавлять>')
+        return
+
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute(
+            """ INSERT INTO employees VALUES (?, ?, ?, ?, ?, ?) """,
+            (employee.name,
+             employee.surname,
+             employee.age,
+             employee.phone_number,
+             employee.bank_card_number,
+             employee.major.value.upper()))
+
+    create_comment(
+        get_employee_id_from_obj(employee),
+        employee.name,
+        employee.surname)
+
+
+def get_employee_id_from_obj(employee: Employee) -> int:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute(""" SELECT rowid FROM employees
+                        WHERE name = ?
+                        AND surname = ?
+                        AND age = ? """,
+                    (employee.name, employee.surname, employee.age))
+        employee_id = cur.fetchone()[0]
+        return employee_id
+
+
+def fetch_all_employees() -> List[Tuple[Any, ...]]:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute('SELECT rowid, * FROM employees ')
+        return cur.fetchall()
+
+
+def print_employees_table(
+        employees: List[Tuple[Any, ...]], sort: Optional[str] = None) -> None:
+    if sort is None or sort not in SORT_PARAMS:
+        sort = 'id'
+
+    print(employees)
+    table = prettytable.PrettyTable()
+    table.field_names = [
+        'ID',
+        'Name',
+        'Surname',
+        'Age',
+        'Phone Number',
+        'Bank Card Number',
+        'Major'
+    ]
+
+    employees.sort(key=lambda x: x[SORT_PARAMS.index(sort)])
+
+    for employee in employees:
+        table.add_row([*employee])
+
+    print('\n' + table.get_string() + '\n')
+
+
+def check_employee_exists(employee: Employee) -> bool:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute("""
+                SELECT COUNT(*) FROM employees
+                WHERE name = ? AND surname = ?
+                AND age = ? AND phone_number = ? """,
+                    (employee.name,
+                     employee.surname,
+                     employee.age,
+                     employee.phone_number))
+        count = cur.fetchone()[0]
+
+    return count > 0
+
+
+def fetch_employee_by_id(_id: int) -> Tuple[Any, ...]:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute(
+            """ SELECT rowid, * FROM employees WHERE rowid = ? """, (_id,))
+        return cur.fetchone()
+
+
+def remove_employee_by_id(_id: int) -> None:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute(
+            """ SELECT name, surname FROM employees WHERE rowid = ? """, (_id,))
+        name, surname = cur.fetchone()
+        cur.execute(""" DELETE FROM employees WHERE rowid = ? """, (_id,))
+
+    delete_comment(_id, name, surname)
+
+
+def fetch_employees_by_role(employee_role: Role) -> List[Tuple[Any, ...]]:
+    with sql.connect('company.db') as con:
+        cur = con.cursor()
+        cur.execute("""
+                SELECT rowid, * FROM employees
+                WHERE major = ? """,
+                    (employee_role.value.upper(),))
+        return cur.fetchall()
