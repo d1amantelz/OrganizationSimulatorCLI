@@ -1,0 +1,26 @@
+
+╔═══════════════════════════════════════════════════════════╗
+║                  ADDING A NEW EMPLOYEE                    ║
+╠═══════════════════════════════════════════════════════════╣
+║ INPUT PARAMETERS:                                         ║
+║     - name (STRING)                                       ║
+║     - surname (STRING)                                    ║
+║     - age (INTEGER)                                       ║
+║     - phone_number (STRING)         > STARTS WITH A +     ║
+║     - bank_card_number (STRING)     > 4 TIMES 4 DIGITS    ║
+║                                     > SEPARATED BY -      ║
+║     - major (STRING)                > ONE OF THE ROLES:   ║
+║         * BACKENDER                                       ║
+║         * FRONTENDER                                      ║
+║         * TEAM_LEADER                                     ║
+║         * RECRUITER                                       ║
+║         * ACCOUNTANT                                      ║
+║                                                           ║
+║ NOTES:                                                    ║
+║     * ALL STRINGS ARE WRITTEN WITHOUT QUOTES!             ║
+║     * LOWERCASE IS ALLOWED WHEN PASSING PARAMETERS        ║  
+║                                                           ║ 
+║ EXAMPLE:                                                  ║
+║     >>> add Vadim Karavashkin 18 +79510924935             ║
+║       4721-2381-3289-8012 team_leader                     ║
+╚═══════════════════════════════════════════════════════════╝

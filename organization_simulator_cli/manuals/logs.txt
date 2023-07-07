@@ -1,0 +1,25 @@
+
+╔═══════════════════════════════════════════════════════════════╗
+║                 APPLICATION LOGS MANAGEMENT                   ║
+╠═══════════════════════════════════════════════════════════════╣
+║ INPUT PARAMETERS:                                             ║
+║     - n (INTEGER)         > SHOW THE LAST n LINES OF THE      ║
+║                             LOGS                              ║
+║                                                               ║
+║ OPTION:                                                       ║
+║     clear                 > CLEAR THE APPLICATION LOGS        ║
+║                                                               ║
+║ FLAGS:                                                        ║
+║     --level=<log_level>   > FILTER THE LOGS BY THE SPECIFIED  ║
+║                             LOG LEVEL                         ║
+║     Valid log levels:                                         ║
+║        - WARNING                                              ║
+║        - ERROR                                                ║
+║        - DEBUG                                                ║
+║        - INFO                                                 ║
+║                                                               ║
+║ EXAMPLES:                                                     ║
+║     >>> logs 10                                               ║
+║     >>> logs clear                                            ║
+║     >>> logs --level=DEBUG                                    ║
+╚═══════════════════════════════════════════════════════════════╝

@@ -1,0 +1,27 @@
+
+╔═══════════════════════════════════════════════════════════╗
+║         PRINTS THE LIST OF EMPLOYEES IN THE COMPANY       ║
+╠═══════════════════════════════════════════════════════════╣
+║ INPUT PARAMETERS:                                         ║
+║     - NONE                                                ║
+║                                                           ║
+║ FLAGS:                                                    ║
+║     --sort=<column_name>     > SORT BY A SPECIFIC FIELD   ║
+║                                                           ║
+║     Valid column names:                                   ║
+║        - id                                               ║
+║        - name                                             ║
+║        - surname                                          ║
+║        - age                                              ║
+║                                                           ║
+║     OUTPUT BY ROLES:                                      ║
+║        -f  (FRONTEND DEVELOPERS)                          ║
+║        -b  (BACKEND DEVELOPERS)                           ║
+║        -t  (TEAM LEADERS)                                 ║
+║        -r  (RECRUITERS)                                   ║
+║        -a  (ACCOUNTANTS)                                  ║
+║                                                           ║
+║ EXAMPLES:                                                 ║
+║     >>> list --sort=name                                  ║
+║     >>> list -b                                           ║
+╚═══════════════════════════════════════════════════════════╝

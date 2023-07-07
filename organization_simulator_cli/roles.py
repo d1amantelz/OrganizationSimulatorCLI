@@ -1,5 +1,5 @@
 import enum
-from constants import BASE_SALARY, SalaryCoefficients
+from .constants import BASE_SALARY, SalaryCoefficients
 
 
 class Role(enum.Enum):
@@ -66,17 +66,3 @@ class Recruiter(Employee):
         pass
 
 
-def get_role_from_flag(role_flag: str) -> Role | None:
-    match role_flag:
-        case 'f':
-            return Role.FRONTENDER
-        case 'b':
-            return Role.BACKENDER
-        case 't':
-            return Role.TEAM_LEADER
-        case 'r':
-            return Role.RECRUITER
-        case 'a':
-            return Role.ACCOUNTANT
-        case _:
-            return None
