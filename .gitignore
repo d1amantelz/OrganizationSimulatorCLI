@@ -1,16 +1,14 @@
 # Игнорировать папку с кэшэм __pycache__
-__pycache__
+organization_simulator_cli/__pycache__
 
 # Игнорировать папку с кэшэм .mypy_cache
-.mypy_cache
+organization_simulator_cli/.mypy_cache
 
 # Игнорировать папку с настройками .vscode
-.vscode
+organization_simulator_cli/.vscode
 
 # Игнорировать виртуальное окружение
 env
 
 # Игнорировать папку с логами
 logs
-
-dist

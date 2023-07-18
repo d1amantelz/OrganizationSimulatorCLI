@@ -1,11 +1,11 @@
 import os
-from typing import List
+from typing import List, Dict
 from loguru import logger
 
-from .constants import SORT_PARAMS, ROLES_FLAGS, VALID_LEVELS
-from .roles import Accountant, Employee, Role
-from .exceptions import *
-from .db_funcs import *
+from constants import SORT_PARAMS, ROLES_FLAGS, VALID_LEVELS
+from roles import Accountant, Employee, Role
+from exceptions import *
+from db_funcs import *
 import abc
 
 # Ensure the logs directory exists for proper logging functionality
@@ -57,13 +57,25 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+class Command(abc.ABC):
+    """
+    Abstract base class for commands.
+    """
+
+    @abc.abstractmethod
+    def execute(self, args):
+        """
+        Executes the command with the given arguments.
+        """
+
+
 class CommandParser:
     """
     CommandParser class is responsible for parsing user input and executing 
     the corresponding command.
     """
 
-    COMMANDS = {}
+    COMMANDS: Dict[str, Command] = {}
 
     @classmethod
     def register_command(cls, command_name):
@@ -89,18 +101,6 @@ class CommandParser:
             raise_command_not_found_error()
 
 
-class Command(abc.ABC):
-    """
-    Abstract base class for commands.
-    """
-
-    @abc.abstractmethod
-    def execute(self, args):
-        """
-        Executes the command with the given arguments.
-        """
-
-
 @CommandParser.register_command('help')
 class HelpCommand(Command):
     """
@@ -118,7 +118,9 @@ class HelpCommand(Command):
 
         print('\nList of available commands:\n')
         for cmd_name, command_class in CommandParser.COMMANDS.items():
-            command_desc = command_class.__doc__.strip()[8:].capitalize()
+            class_doc = command_class.__doc__
+            if class_doc:
+                command_desc = class_doc.strip()[8:].capitalize()
             print(f"- {cmd_name} - {command_desc}")
         print()
 
@@ -477,7 +479,7 @@ class LogsCommand(Command):
             for line in lines[start_index:]:
                 print(line.strip())
                 logs_exist = True
-            
+
             if not logs_exist:
                 print('No logs yet.')
             print()
@@ -504,7 +506,12 @@ class LogsCommand(Command):
                 if level.lower() in line.lower():
                     print(line.strip())
                     found_level = True
-            
+
             if not found_level:
                 print(f'No logs found with level "{level}"')
             print()
+
+
+@CommandParser.register_command('game')
+class GameCommand(Command):
+    pass
