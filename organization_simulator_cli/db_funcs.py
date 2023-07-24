@@ -2,6 +2,8 @@ import sqlite3 as sql
 import prettytable
 from typing import List, Tuple, Any, Optional
 
+
+import os
 from loguru import logger
 from .roles import Employee, Role
 from .emp_comments import create_comment, delete_comment

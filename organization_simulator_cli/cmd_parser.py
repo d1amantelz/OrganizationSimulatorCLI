@@ -2,10 +2,10 @@ import os
 from typing import List, Dict
 from loguru import logger
 
-from constants import SORT_PARAMS, ROLES_FLAGS, VALID_LEVELS
-from roles import Accountant, Employee, Role
-from exceptions import *
-from db_funcs import *
+from .constants import SORT_PARAMS, ROLES_FLAGS, VALID_LEVELS
+from .roles import Accountant, Employee, Role
+from .exceptions import *
+from .db_funcs import *
 import abc
 
 # Ensure the logs directory exists for proper logging functionality
@@ -167,12 +167,12 @@ class ManCommand(Command):
         Read the manual content for a specific command.
         """
 
-        try:
-            with open(f'/manuals/{cmd}.txt', 'r') as file:
-                result = file.read()
-                return result
-        except FileNotFoundError:
+        if cmd not in CommandParser.COMMANDS:
             raise_command_not_found_error()
+
+        with open(f'organization_simulator_cli/manuals/{cmd}.txt', 'r') as file:
+            result = file.read()
+            return result
 
 
 @CommandParser.register_command('list')
