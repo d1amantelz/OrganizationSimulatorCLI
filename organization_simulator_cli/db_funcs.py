@@ -2,16 +2,14 @@ import sqlite3 as sql
 import prettytable
 from typing import List, Tuple, Any, Optional
 
-
-import os
 from loguru import logger
 from .roles import Employee, Role
 from .emp_comments import create_comment, delete_comment
 from .constants import SORT_PARAMS
 
 
-def insert_into_db(__employee: Employee) -> None:
-    if check_employee_exists(__employee):
+def insert_into_db(employee: Employee) -> None:
+    if check_employee_exists(employee):
         msg = 'This employee already exists in the database!'
         print(msg)
         logger.warning(msg)
@@ -21,27 +19,27 @@ def insert_into_db(__employee: Employee) -> None:
         cur = con.cursor()
         cur.execute(
             """ INSERT INTO employees VALUES (?, ?, ?, ?, ?, ?) """,
-            (__employee.name,
-             __employee.surname,
-             __employee.age,
-             __employee.phone_number,
-             __employee.bank_card_number,
-             __employee.major.value.upper()))
+            (employee.name,
+             employee.surname,
+             employee.age,
+             employee.phone_number,
+             employee.bank_card_number,
+             employee.major.value.upper()))
 
     create_comment(
-        get_employee_id_from_obj(__employee),
-        __employee.name,
-        __employee.surname)
+        get_employee_id_from_obj(employee),
+        employee.name,
+        employee.surname)
 
 
-def get_employee_id_from_obj(__employee: Employee) -> int:
+def get_employee_id_from_obj(employee: Employee) -> int:
     with sql.connect('company.db') as con:
         cur = con.cursor()
         cur.execute(""" SELECT rowid FROM employees
                         WHERE name = ?
                         AND surname = ?
                         AND age = ? """,
-                    (__employee.name, __employee.surname, __employee.age))
+                    (employee.name, employee.surname, employee.age))
         employee_id = cur.fetchone()[0]
         return employee_id
 
@@ -78,17 +76,17 @@ def print_employees_table(
     print('\n' + table.get_string() + '\n')
 
 
-def check_employee_exists(__employee: Employee) -> bool:
+def check_employee_exists(employee: Employee) -> bool:
     with sql.connect('company.db') as con:
         cur = con.cursor()
         cur.execute("""
                 SELECT COUNT(*) FROM employees
                 WHERE name = ? AND surname = ?
                 AND age = ? AND phone_number = ? """,
-                    (__employee.name,
-                     __employee.surname,
-                     __employee.age,
-                     __employee.phone_number))
+                    (employee.name,
+                     employee.surname,
+                     employee.age,
+                     employee.phone_number))
         count = cur.fetchone()[0]
 
     return count > 0

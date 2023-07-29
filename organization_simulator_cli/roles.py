@@ -64,5 +64,3 @@ class TeamLead(Employee):
 class Recruiter(Employee):
     def hire_employee(self, new_employee: Employee) -> None:
         pass
-
-

@@ -353,7 +353,7 @@ class ReadCommentCommand(Command):
         Read the comment content for a specific employee.
         """
 
-        with open(f'comments/{_id}_{name}_{surname}.txt') as file:
+        with open(f'organization_simulator_cli/comments/{_id}_{name}_{surname}.txt') as file:
             return file.read()
 
 
@@ -387,7 +387,7 @@ class ClearCommentCommand(Command):
         Clear the comment for a specific employee.
         """
 
-        with open(f'comments/{_id}_{name}_{surname}.txt', 'w') as file:
+        with open(f'organization_simulator_cli/comments/{_id}_{name}_{surname}.txt', 'w') as f:
             logger.success('Comment has been successfully cleared!')
 
 
@@ -425,7 +425,7 @@ class SetCommentCommand(Command):
         Set or change the comment for a specific employee.
         """
 
-        with open(f'comments/{_id}_{name}_{surname}.txt', 'w') as file:
+        with open(f'organization_simulator_cli/comments/{_id}_{name}_{surname}.txt', 'w') as file:
             file.write(comment)
             logger.success('Comment has been successfully changed!')
 
